@@ -19,20 +19,20 @@ options:
 schema:
   debug_mode: bool
   device_serial: str?
-  import_t1: "sensor?"
-  import_t2: "sensor?"
-  export_t1: "sensor?"
-  export_t2: "sensor?"
-  active_power_consumed: "sensor?"
-  active_power_produced: "sensor?"
-  power_l1: "sensor?"
-  power_l2: "sensor?"
-  power_l3: "sensor?"
-  voltage_l1: "sensor?"
-  voltage_l2: "sensor?"
-  voltage_l3: "sensor?"
-  current_l1: "sensor?"
-  current_l2: "sensor?"
-  current_l3: "sensor?"
-  short_power_drop: "binary_sensor?"
-  power_fail: "binary_sensor?"
+  import_t1: str?
+  import_t2: str?
+  export_t1: str?
+  export_t2: str?
+  active_power_consumed: str?
+  active_power_produced: str?
+  power_l1: str?
+  power_l2: str?
+  power_l3: str?
+  voltage_l1: str?
+  voltage_l2: str?
+  voltage_l3: str?
+  current_l1: str?
+  current_l2: str?
+  current_l3: str?
+  short_power_drop: str?
+  power_fail: str?
