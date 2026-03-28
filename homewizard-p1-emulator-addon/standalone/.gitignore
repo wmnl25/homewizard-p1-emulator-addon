@@ -1,0 +1,10 @@
+# Geheime instellingen (NOOIT uploaden!)
+.env
+.serial
+
+# Mac systeem bestanden
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
