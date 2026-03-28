@@ -11,7 +11,6 @@ import json
 import sys
 
 app = Flask(__name__)
-# Zet Flask logging op Error om de logs schoon te houden
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
@@ -84,7 +83,6 @@ def get_ha_state(entity_key, default=0.0):
                 return str(state).lower() in ["true", "on", "1", "yes"]
             
             try:
-                # Automatische conversie van kW naar W als dat nodig is
                 val = float(state)
                 return val
             except ValueError:
@@ -100,11 +98,9 @@ def gather_api_data():
     export_t1 = round(get_ha_state("export_t1"), 3)
     export_t2 = round(get_ha_state("export_t2"), 3)
     
-    # HomeWizard API verwacht Watts (W), HA sensoren zijn vaak in kW
     p_cons = get_ha_state("active_power_consumed")
     p_prod = get_ha_state("active_power_produced")
     
-    # Simpele detectie: als waarde < 100 is het waarschijnlijk kW, anders W
     power_consumed = int(round(p_cons * 1000 if p_cons < 100 else p_cons))
     power_produced = int(round(p_prod * 1000 if p_prod < 100 else p_prod))
     netto_power = power_consumed - power_produced
@@ -180,19 +176,30 @@ def setup_mdns(ip_address):
 if __name__ == '__main__':
     local_ip = get_local_ip()
     
+    display_mac = DEVICE_SERIAL.ljust(12, '0')[:12]
+    mac_format = ':'.join(display_mac[i:i+2] for i in range(0, 12, 2))
+    
     print("\n" + "="*45, flush=True)
     print("🔌 HOMEWIZARD P1 EMULATOR (v1.0.6)", flush=True)
-    print(f"🌐 IP: {local_ip} | Port: 80", flush=True)
-    print(f"🔢 Serial: {DEVICE_SERIAL}", flush=True)
-    print("="*45 + "\n", flush=True)
+    print("="*45, flush=True)
+    print(f"🌐 IP Address:    {local_ip}", flush=True)
+    print(f"🏷️  MAC Address:   {mac_format}", flush=True)
+    print(f"🔢 Serial Number: {DEVICE_SERIAL}", flush=True)
+    print(f"🚪 Port:          80", flush=True)
+    print(f"📡 mDNS (Local):  HWE-P1-{DEVICE_SERIAL}.local", flush=True)
 
+    if DEBUG_MODE:
+        print("🐛 Debug Mode:    ON (Live updates visible)", flush=True)
+    else:
+        print("🤫 Debug Mode:    OFF", flush=True)
+    print("="*45 + "\n", flush=True)
+    
     zc, info = setup_mdns(local_ip)
     
     if DEBUG_MODE:
         threading.Thread(target=print_cli_updates, daemon=True).start()
 
     try:
-        # Host 0.0.0.0 is nodig voor Add-ons
         app.run(host='0.0.0.0', port=80, debug=False)
     except OSError as e:
         if e.errno == 98 or e.errno == 48:
