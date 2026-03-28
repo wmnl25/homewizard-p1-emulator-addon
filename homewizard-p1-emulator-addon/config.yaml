@@ -12,7 +12,7 @@ host_network: true
 homeassistant_api: true
 hassio_api: true
 options:
-  debug_mode: true
+  debug_mode: false
   import_t1: "sensor.p1_energy_consumed_tariff_1"
   import_t2: "sensor.p1_energy_consumed_tariff_2"
   export_t1: "sensor.p1_energy_produced_tariff_1"
