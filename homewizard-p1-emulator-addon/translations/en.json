@@ -1,0 +1,80 @@
+{
+  "configuration": {
+    "import_t1": {
+      "name": "Energy Import T1",
+      "description": "Total energy consumed from the grid (Tariff 1) in kWh."
+    },
+    "import_t2": {
+      "name": "Energy Import T2",
+      "description": "Total energy consumed from the grid (Tariff 2) in kWh."
+    },
+    "export_t1": {
+      "name": "Energy Export T1",
+      "description": "Total energy returned to the grid (Tariff 1) in kWh."
+    },
+    "export_t2": {
+      "name": "Energy Export T2",
+      "description": "Total energy returned to the grid (Tariff 2) in kWh."
+    },
+    "active_power_consumed": {
+      "name": "Current Power Usage",
+      "description": "Real-time power consumption in Watts or kW."
+    },
+    "active_power_produced": {
+      "name": "Current Power Production",
+      "description": "Real-time solar production in Watts or kW (optional)."
+    },
+    "debug_mode": {
+      "name": "Enable Debug Logs",
+      "description": "Show live data updates in the Add-on log."
+    },
+    "device_serial": {
+      "name": "Device Serial Number",
+      "description": "(Optional) Manually set a 12-character hex serial/MAC address."
+    },
+    "power_l1": {
+      "name": "Power L1",
+      "description": "Power usage on Phase 1 in Watts or kW (optional)."
+    },
+    "power_l2": {
+      "name": "Power L2",
+      "description": "Power usage on Phase 2 in Watts or kW (optional)."
+    },
+    "power_l3": {
+      "name": "Power L3",
+      "description": "Power usage on Phase 3 in Watts or kW (optional)."
+    },
+    "voltage_l1": {
+      "name": "Voltage L1",
+      "description": "Voltage on Phase 1 in Volts (optional)."
+    },
+    "voltage_l2": {
+      "name": "Voltage L2",
+      "description": "Voltage on Phase 2 in Volts (optional)."
+    },
+    "voltage_l3": {
+      "name": "Voltage L3",
+      "description": "Voltage on Phase 3 in Volts (optional)."
+    },
+    "current_l1": {
+      "name": "Current L1",
+      "description": "Current on Phase 1 in Amperes (optional)."
+    },
+    "current_l2": {
+      "name": "Current L2",
+      "description": "Current on Phase 2 in Amperes (optional)."
+    },
+    "current_l3": {
+      "name": "Current L3",
+      "description": "Current on Phase 3 in Amperes (optional)."
+    },
+    "short_power_drop": {
+      "name": "Short Power Drop",
+      "description": "Binary sensor for short power drops (optional)."
+    },
+    "power_fail": {
+      "name": "Power Failure",
+      "description": "Binary sensor for power failures (optional)."
+    }
+  }
+}
