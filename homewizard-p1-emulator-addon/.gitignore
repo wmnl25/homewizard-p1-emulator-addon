@@ -1,0 +1,35 @@
+# --- Geheime Bestanden (CRUCIAAL) ---
+# Bevat je Home Assistant Long-Lived Access Token
+.env
+standalone/.env
+
+# Bevat het gegenereerde unieke serienummer van de emulator
+.serial
+standalone/.serial
+
+# --- macOS Systeembestanden ---
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# --- Python Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv
+venv/
+ENV/
+
+# --- IDE Instellingen ---
+.vscode/
+.idea/
+*.swp
+*.bak
+
+# --- Home Assistant Specifiek ---
+# Voorkom dat lokale test-data wordt geüpload
+*.log
