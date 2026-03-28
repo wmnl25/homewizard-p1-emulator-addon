@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.5
+- ✅ Restore sensor defaults.
+
 ## 1.0.4
 - ✅ Fixed: Supervisor schema validation errors in config.yaml.
 - ✅ Added: Multi-language support (EN, NL, DE, FR, ES).
