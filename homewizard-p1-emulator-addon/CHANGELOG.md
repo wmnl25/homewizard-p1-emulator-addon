@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.6
+- 🔧 Improved: added port 80 conflict detection to main.py
+
 ## 1.0.5
 - ✅ Restore sensor defaults.
 

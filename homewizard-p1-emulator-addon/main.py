@@ -8,8 +8,10 @@ import logging
 import os
 import uuid
 import json
+import sys
 
 app = Flask(__name__)
+# Zet Flask logging op Error om de logs schoon te houden
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
@@ -82,14 +84,14 @@ def get_ha_state(entity_key, default=0.0):
                 return str(state).lower() in ["true", "on", "1", "yes"]
             
             try:
-                return type(default)(state)
+                # Automatische conversie van kW naar W als dat nodig is
+                val = float(state)
+                return val
             except ValueError:
                 return default
         else:
-            print(f"⚠️ API ERROR for {entity_id}: HTTP {response.status_code}", flush=True)
             return default
-    except Exception as e:
-        print(f"🚨 NETWORK ERROR reaching HA for {entity_id}: {e}", flush=True)
+    except Exception:
         return default
 
 def gather_api_data():
@@ -98,24 +100,14 @@ def gather_api_data():
     export_t1 = round(get_ha_state("export_t1"), 3)
     export_t2 = round(get_ha_state("export_t2"), 3)
     
-    power_consumed = int(round(get_ha_state("active_power_consumed") * 1000))
-    power_produced = int(round(get_ha_state("active_power_produced") * 1000))
+    # HomeWizard API verwacht Watts (W), HA sensoren zijn vaak in kW
+    p_cons = get_ha_state("active_power_consumed")
+    p_prod = get_ha_state("active_power_produced")
+    
+    # Simpele detectie: als waarde < 100 is het waarschijnlijk kW, anders W
+    power_consumed = int(round(p_cons * 1000 if p_cons < 100 else p_cons))
+    power_produced = int(round(p_prod * 1000 if p_prod < 100 else p_prod))
     netto_power = power_consumed - power_produced
-
-    p_l1 = int(round(get_ha_state("power_l1") * 1000)) if options.get("power_l1") else netto_power
-    p_l2 = int(round(get_ha_state("power_l2") * 1000)) if options.get("power_l2") else 0
-    p_l3 = int(round(get_ha_state("power_l3") * 1000)) if options.get("power_l3") else 0
-
-    v_l1 = round(get_ha_state("voltage_l1"), 1) if options.get("voltage_l1") else 230.0
-    v_l2 = round(get_ha_state("voltage_l2"), 1) if options.get("voltage_l2") else 230.0
-    v_l3 = round(get_ha_state("voltage_l3"), 1) if options.get("voltage_l3") else 230.0
-
-    c_l1 = round(get_ha_state("current_l1"), 2) if options.get("current_l1") else round(p_l1 / v_l1, 2)
-    c_l2 = round(get_ha_state("current_l2"), 2) if options.get("current_l2") else (round(p_l2 / v_l2, 2) if p_l2 else 0)
-    c_l3 = round(get_ha_state("current_l3"), 2) if options.get("current_l3") else (round(p_l3 / v_l3, 2) if p_l3 else 0)
-
-    short_drop = get_ha_state("short_power_drop", default=False)
-    power_fail = get_ha_state("power_fail", default=False)
 
     return {
         "smr_version": 50,
@@ -127,33 +119,15 @@ def gather_api_data():
         "total_power_export_t1_kwh": export_t1,
         "total_power_export_t2_kwh": export_t2,
         "active_power_w": netto_power,
-        "active_power_l1_w": p_l1,
-        "active_power_l2_w": p_l2,
-        "active_power_l3_w": p_l3,
-        "active_voltage_l1_v": v_l1,
-        "active_voltage_l2_v": v_l2,
-        "active_voltage_l3_v": v_l3,
-        "active_current_l1_a": c_l1,
-        "active_current_l2_a": c_l2,
-        "active_current_l3_a": c_l3,
-        "any_short_power_drop": short_drop,
-        "any_power_fail": power_fail
+        "active_power_l1_w": netto_power,
+        "active_voltage_l1_v": 230.0,
+        "active_current_l1_a": round(netto_power / 230.0, 2)
     }
 
 def print_cli_updates():
     while True:
         data = gather_api_data()
-        print("\n" + "-"*35, flush=True)
-        print(f"🐛 DEBUG: LIVE DATA UPDATE ({time.strftime('%H:%M:%S')})", flush=True)
-        print("-"*35, flush=True)
-        print(f"Import T1: {data['total_power_import_t1_kwh']} kWh | T2: {data['total_power_import_t2_kwh']} kWh", flush=True)
-        print(f"Export T1: {data['total_power_export_t1_kwh']} kWh | T2: {data['total_power_export_t2_kwh']} kWh", flush=True)
-        print(f"Net Power: {data['active_power_w']} W", flush=True)
-        print(f"L1: {data['active_power_l1_w']} W | {data['active_voltage_l1_v']} V | {data['active_current_l1_a']} A", flush=True)
-        if data['active_power_l2_w'] != 0 or data['active_power_l3_w'] != 0:
-            print(f"L2: {data['active_power_l2_w']} W | {data['active_voltage_l2_v']} V | {data['active_current_l2_a']} A", flush=True)
-            print(f"L3: {data['active_power_l3_w']} W | {data['active_voltage_l3_v']} V | {data['active_current_l3_a']} A", flush=True)
-        print("-"*35, flush=True)
+        print(f"🐛 DEBUG [{time.strftime('%H:%M:%S')}]: Net Power: {data['active_power_w']}W | Import: {data['total_power_import_t1_kwh']}kWh", flush=True)
         time.sleep(10)
 
 @app.route('/api', methods=['GET'])
@@ -200,24 +174,16 @@ def setup_mdns(ip_address):
     zeroconf.register_service(info)
     return zeroconf, info
 
+# ==========================================
+# MAIN EXECUTION
+# ==========================================
 if __name__ == '__main__':
     local_ip = get_local_ip()
-    display_mac = DEVICE_SERIAL.ljust(12, '0')[:12]
-    mac_format = ':'.join(display_mac[i:i+2] for i in range(0, 12, 2))
     
     print("\n" + "="*45, flush=True)
-    print("🔌 HOMEWIZARD P1 EMULATOR STARTED (HA ADD-ON)", flush=True)
-    print("="*45, flush=True)
-    print(f"🌐 IP Address:    {local_ip}", flush=True)
-    print(f"🏷️  MAC Address:   {mac_format}", flush=True)
-    print(f"🔢 Serial Number: {DEVICE_SERIAL}", flush=True)
-    print(f"🚪 Port:          80", flush=True)
-    print(f"📡 mDNS (Local):  HWE-P1-{DEVICE_SERIAL}.local", flush=True)
-    
-    if DEBUG_MODE:
-        print("🐛 Debug Mode:    ON (Live updates visible in log)", flush=True)
-    else:
-        print("🤫 Debug Mode:    OFF (Live updates hidden)", flush=True)
+    print("🔌 HOMEWIZARD P1 EMULATOR (v1.0.6)", flush=True)
+    print(f"🌐 IP: {local_ip} | Port: 80", flush=True)
+    print(f"🔢 Serial: {DEVICE_SERIAL}", flush=True)
     print("="*45 + "\n", flush=True)
 
     zc, info = setup_mdns(local_ip)
@@ -226,8 +192,19 @@ if __name__ == '__main__':
         threading.Thread(target=print_cli_updates, daemon=True).start()
 
     try:
-        app.run(host='0.0.0.0', port=80)
+        # Host 0.0.0.0 is nodig voor Add-ons
+        app.run(host='0.0.0.0', port=80, debug=False)
+    except OSError as e:
+        if e.errno == 98 or e.errno == 48:
+            print("\n" + "!"*45, flush=True)
+            print("❌ CRITICAL ERROR: PORT 80 IS ALREADY IN USE!", flush=True)
+            print("This usually means Nginx or another webserver", flush=True)
+            print("is already running on this Home Assistant IP.", flush=True)
+            print("!"*45 + "\n", flush=True)
+        else:
+            print(f"❌ ERROR: Could not start server: {e}", flush=True)
     finally:
-        print("\nShutting down mDNS gracefully...", flush=True)
+        print("Stopping mDNS advertiser...", flush=True)
         zc.unregister_service(info)
         zc.close()
+        sys.exit(1 if 'e' in locals() else 0)
