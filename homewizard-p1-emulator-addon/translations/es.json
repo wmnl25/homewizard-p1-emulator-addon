@@ -1,0 +1,36 @@
+{
+  "configuration": {
+    "import_t1": {
+      "name": "Consumo de Energía T1",
+      "description": "Consumo total de la red (Tarifa 1) en kWh."
+    },
+    "import_t2": {
+      "name": "Consumo de Energía T2",
+      "description": "Consumo total de la red (Tarifa 2) en kWh."
+    },
+    "export_t1": {
+      "name": "Exportación de Energía T1",
+      "description": "Energía total devuelta a la red (Tarifa 1) en kWh."
+    },
+    "export_t2": {
+      "name": "Exportación de Energía T2",
+      "description": "Energía total devuelta a la red (Tarifa 2) en kWh."
+    },
+    "active_power_consumed": {
+      "name": "Potencia Actual",
+      "description": "Consumo de energía en tiempo réel en Watts o kW."
+    },
+    "active_power_produced": {
+      "name": "Producción Actual",
+      "description": "Producción solar en tiempo réel en Watts o kW (opcional)."
+    },
+    "debug_mode": {
+      "name": "Activar Logs de Depuración",
+      "description": "Mostrar actualizaciones de datos en tiempo réel en el registro del add-on."
+    },
+    "device_serial": {
+      "name": "Número de Serie del Dispositivo",
+      "description": "(Opcional) Establecer manualmente un número de serie/MAC hexadecimal de 12 caracteres."
+    }
+  }
+}

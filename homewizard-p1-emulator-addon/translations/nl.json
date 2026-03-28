@@ -1,0 +1,36 @@
+{
+  "configuration": {
+    "import_t1": {
+      "name": "Stroomverbruik T1",
+      "description": "Totaal verbruik van het net (Tarief 1) in kWh."
+    },
+    "import_t2": {
+      "name": "Stroomverbruik T2",
+      "description": "Totaal verbruik van het net (Tarief 2) in kWh."
+    },
+    "export_t1": {
+      "name": "Stroomteruglevering T1",
+      "description": "Totaal teruggeleverd aan het net (Tarief 1) in kWh."
+    },
+    "export_t2": {
+      "name": "Stroomteruglevering T2",
+      "description": "Totaal teruggeleverd aan het net (Tarief 2) in kWh."
+    },
+    "active_power_consumed": {
+      "name": "Actueel Verbruik",
+      "description": "Huidig stroomverbruik in Watt of kW."
+    },
+    "active_power_produced": {
+      "name": "Actuele Productie",
+      "description": "Huidige zonne-energieproductie in Watt of kW (optioneel)."
+    },
+    "debug_mode": {
+      "name": "Debug-logs Inschakelen",
+      "description": "Toon realtime gegevensupdates in het Add-on logboek."
+    },
+    "device_serial": {
+      "name": "Apparaat Serienummer",
+      "description": "(Optioneel) Handmatig een 12-karakter hex serial/MAC instellen."
+    }
+  }
+}

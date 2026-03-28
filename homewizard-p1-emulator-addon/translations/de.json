@@ -1,0 +1,36 @@
+{
+  "configuration": {
+    "import_t1": {
+      "name": "Stromverbrauch T1",
+      "description": "Gesamtverbrauch aus dem Netz (Tarif 1) in kWh."
+    },
+    "import_t2": {
+      "name": "Stromverbrauch T2",
+      "description": "Gesamtverbrauch aus dem Netz (Tarif 2) in kWh."
+    },
+    "export_t1": {
+      "name": "Stromeinspeisung T1",
+      "description": "Gesamteinspeisung ins Netz (Tarif 1) in kWh."
+    },
+    "export_t2": {
+      "name": "Stromeinspeisung T2",
+      "description": "Gesamteinspeisung ins Netz (Tarif 2) in kWh."
+    },
+    "active_power_consumed": {
+      "name": "Aktueller Verbrauch",
+      "description": "Aktueller Stromverbrauch in Watt oder kW."
+    },
+    "active_power_produced": {
+      "name": "Aktuelle Produktion",
+      "description": "Aktuelle Solarproduktion in Watt oder kW (optional)."
+    },
+    "debug_mode": {
+      "name": "Debug-Logs Aktivieren",
+      "description": "Echtzeit-Datenupdates im Add-on-Protokoll anzeigen."
+    },
+    "device_serial": {
+      "name": "Geräte-Seriennummer",
+      "description": "(Optional) Manuelles Festlegen einer 12-stelligen Hex-Seriennummer/MAC."
+    }
+  }
+}
