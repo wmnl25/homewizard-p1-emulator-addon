@@ -1,4 +1,4 @@
-# HomeWizard P1 Meter Emulator
+# HomeWizard P1 Meter Emulator for Home Assistant (add-on)
 
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
