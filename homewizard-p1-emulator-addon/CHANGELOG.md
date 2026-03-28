@@ -1,10 +1,14 @@
 # Changelog
 
 ## 1.0.7
+- ✅ Restored: MAC Address and mDNS local name in startup logs.
+
+## 1.0.6
 - 🔧 Improved: added port 80 conflict detection to main.py
+- 🔧 Improved: Graceful shutdown of mDNS services.
 
 ## 1.0.5
-- ✅ Restore sensor defaults.
+- ✅ Fixed: Default sensor entities restored in configuration.
 
 ## 1.0.4
 - ✅ Fixed: Supervisor schema validation errors in config.yaml.
