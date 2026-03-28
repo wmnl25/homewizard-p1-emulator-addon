@@ -1,7 +1,7 @@
 # HomeWizard P1 Meter Emulator for Home Assistant (Add-on)
 
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
-[![Version](https://img.shields.io/badge/version-1.0.5-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
+[![Version](https://img.shields.io/badge/version-1.0.7-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This project emulates a physical **HomeWizard P1 Energy Meter** on your local network. It pulls real-time data from your **Home Assistant** sensors and serves it via the official HomeWizard Local API (`v1`).
@@ -10,7 +10,7 @@ Perfect for feeding energy data into smart devices like the **Zendure SolarFlow 
 
 ---
 
-## ✨ Features (v1.0.5)
+## ✨ Features
 
 * **Full API Compliance:** Implements `/api` and `/api/v1/data` exactly like the original hardware.
 * **Auto-Discovery:** Uses **mDNS (Zeroconf)** to broadcast as `_hwenergy._tcp.local.`, making it instantly visible in the Zendure app.
@@ -32,7 +32,7 @@ Perfect for feeding energy data into smart devices like the **Zendure SolarFlow 
 
 ---
 
-## 📝 Configuration Options (v1.0.5)
+## 📝 Configuration Options 
 
 The add-on is pre-configured with standard Home Assistant P1 sensor names. You can adjust these in the **Configuration** tab.
 
