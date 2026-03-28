@@ -67,7 +67,7 @@ If these sensors are provided, the emulator serves detailed per-phase data.
 ---
 
 ## 🐛 Troubleshooting
-* **Add-on won't start:** Ensure no other service uses Port 80.
+* **Add-on won't start:** Check the logs.
 * **Zendure app can't find it:** Phone and Emulator must be on the same WiFi network during setup.
 * **Data shows 0.0:** Verify that the selected sensors have a valid state in Home Assistant.
 
