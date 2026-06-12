@@ -1,6 +1,6 @@
 name: "HomeWizard P1 Emulator"
 description: "Emulates a HomeWizard P1 meter using Home Assistant sensors to feed data into devices like Zendure SolarFlow."
-version: "1.0.9"
+version: "1.0.9.1"
 slug: "homewizard_p1_emulator"
 init: false
 arch:
@@ -11,6 +11,8 @@ arch:
 host_network: true
 homeassistant_api: true
 hassio_api: true
+ports:
+  80/tcp: 80
 options:
   debug_mode: false
   import_t1: "sensor.p1_energy_consumed_tariff_1"

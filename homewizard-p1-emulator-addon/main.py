@@ -12,7 +12,6 @@ import sys
 
 app = Flask(__name__)
 log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
 
 # ==========================================
 # HOME ASSISTANT ADD-ON CONFIGURATION
@@ -31,6 +30,11 @@ except Exception as e:
 DEBUG_MODE = options.get("debug_mode", False)
 debug_setting = str(DEBUG_MODE).lower() == 'true'
 
+if DEBUG_MODE:
+    log.setLevel(logging.DEBUG)
+else:
+    log.setLevel(logging.ERROR)
+    
 # ==========================================
 # MANAGE UNIQUE SERIAL NUMBER / MAC
 # ==========================================
