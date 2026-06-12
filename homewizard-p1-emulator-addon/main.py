@@ -167,7 +167,7 @@ def setup_mdns(ip_address):
         properties=properties,
         server=f"hwe-p1-{DEVICE_SERIAL.lower()}.local.",
     )
-    zeroconf.register_service(info)
+    zeroconf.register_service(info, allow_name_change=True)
     return zeroconf, info
 
 # ==========================================

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.08
+- 🛠️  Fix: Enable allow_name_change=True to prevent zeroconf._exceptions.NonUniqueNameException
+
 ## 1.0.7
 - ✅ Restored: MAC Address and mDNS local name in startup logs.
 
