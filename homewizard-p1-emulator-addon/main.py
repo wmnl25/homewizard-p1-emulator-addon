@@ -29,6 +29,7 @@ except Exception as e:
     options = {}
 
 DEBUG_MODE = options.get("debug_mode", False)
+debug_setting = str(DEBUG_MODE).lower() == 'true'
 
 # ==========================================
 # MANAGE UNIQUE SERIAL NUMBER / MAC
@@ -200,7 +201,7 @@ if __name__ == '__main__':
         threading.Thread(target=print_cli_updates, daemon=True).start()
 
     try:
-        app.run(host='0.0.0.0', port=80, debug=False)
+        app.run(host='0.0.0.0', port=80, debug=debug_setting)
     except OSError as e:
         if e.errno == 98 or e.errno == 48:
             print("\n" + "!"*45, flush=True)

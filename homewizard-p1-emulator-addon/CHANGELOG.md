@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.09
+- 🔧 Improved: expand debug mode
+
 ## 1.08
 - 🛠️  Fix: Enable allow_name_change=True to prevent zeroconf._exceptions.NonUniqueNameException
 
