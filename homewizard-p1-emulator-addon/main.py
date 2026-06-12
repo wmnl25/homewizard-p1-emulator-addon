@@ -107,7 +107,7 @@ def gather_api_data():
 
     return {
         "smr_version": 50,
-        "meter_model": "Emulator AM550",
+        "meter_model": "AM550",
         "wifi_ssid": "Home_Assistant",
         "wifi_strength": 100,
         "total_power_import_t1_kwh": import_t1,
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     mac_format = ':'.join(display_mac[i:i+2] for i in range(0, 12, 2))
     
     print("\n" + "="*45, flush=True)
-    print("🔌 HOMEWIZARD P1 EMULATOR (v1.0.7)", flush=True)
+    print("🔌 HOMEWIZARD P1 EMULATOR", flush=True)
     print("="*45, flush=True)
     print(f"🌐 IP Address:    {local_ip}", flush=True)
     print(f"🏷️  MAC Address:   {mac_format}", flush=True)
