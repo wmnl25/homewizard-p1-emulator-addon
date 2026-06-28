@@ -131,7 +131,7 @@ def gather_api_data():
 def print_cli_updates():
     while True:
         data = gather_api_data()
-        print(f"🐛 DEBUG [{time.strftime('%H:%M:%S')}]: Net Power: {data['active_power_w']}W | Import: {data['total_power_import_t1_kwh']}kWh", flush=True)
+        print(f"🐛 DEBUG [{time.strftime('%H:%M:%S')}]: Net Power: {data['active_power_w']}W", flush=True)
         time.sleep(10)
 
 @app.route('/api', methods=['GET'])
