@@ -105,10 +105,15 @@ def gather_api_data():
     export_t1 = round(get_ha_state("export_t1"), 3)
     export_t2 = round(get_ha_state("export_t2"), 3)
     
-    # --- Total Power (Raw values as requested) ---
+    # --- Total Power (Convert HA kW to API Watts) ---
     p_cons = get_ha_state("active_power_consumed")
     p_prod = get_ha_state("active_power_produced")
-    netto_power = p_cons - p_prod
+    
+    # Multiply by 1000 to output W instead of kW
+    power_consumed_w = int(round(p_cons * 1000))
+    power_produced_w = int(round(p_prod * 1000))
+    
+    netto_power = power_consumed_w - power_produced_w
 
     # --- Build the Base Payload (Always Returned) ---
     data = {
