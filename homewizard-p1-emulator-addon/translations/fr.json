@@ -22,7 +22,7 @@
     },
     "active_power_produced": {
       "name": "Production Actuelle",
-      "description": "Production solaire en temps réel en Watts ou kW (optionnel)."
+      "description": "Production solaire en temps réel en kW."
     },
     "debug_mode": {
       "name": "Activer les Logs de Débogage",

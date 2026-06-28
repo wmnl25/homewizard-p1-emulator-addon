@@ -22,7 +22,7 @@
     },
     "active_power_produced": {
       "name": "Actuele Productie",
-      "description": "Huidige zonne-energieproductie in Watt of kW (optioneel)."
+      "description": "Huidige zonne-energieproductie in kW."
     },
     "debug_mode": {
       "name": "Debug-logs Inschakelen",

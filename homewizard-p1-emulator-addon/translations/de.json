@@ -22,7 +22,7 @@
     },
     "active_power_produced": {
       "name": "Aktuelle Produktion",
-      "description": "Aktuelle Solarproduktion in Watt oder kW (optional)."
+      "description": "Aktuelle Solarproduktion in kW."
     },
     "debug_mode": {
       "name": "Debug-Logs Aktivieren",
