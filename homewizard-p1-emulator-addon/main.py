@@ -59,7 +59,7 @@ DEVICE_SERIAL = get_or_create_serial()
 # ==========================================
 # LOGIC & DATA GATHERING
 # ==========================================
-CLOUD_ENABLED = True
+CLOUD_ENABLED = False
 def get_ha_state(entity_key, default=0.0):
     entity_id = options.get(entity_key)
     
