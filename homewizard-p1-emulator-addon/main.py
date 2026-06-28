@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import socket
 from zeroconf import IPVersion, ServiceInfo, Zeroconf
 import requests
@@ -59,6 +59,7 @@ DEVICE_SERIAL = get_or_create_serial()
 # ==========================================
 # LOGIC & DATA GATHERING
 # ==========================================
+CLOUD_ENABLED = True
 def get_ha_state(entity_key, default=0.0):
     entity_id = options.get(entity_key)
     
@@ -145,6 +146,21 @@ def get_basic_info():
 def get_data():
     return jsonify(gather_api_data())
 
+@app.route('/api/v1/system', methods=['GET', 'PUT'])
+def system_state():
+    global CLOUD_ENABLED
+    
+    if request.method == 'PUT':
+        data = request.get_json(silent=True) or {}
+        if 'cloud_enabled' in data:
+            CLOUD_ENABLED = bool(data['cloud_enabled'])
+            if DEBUG_MODE:
+                print(f"🐛 DEBUG: cloud_enabled updated to {CLOUD_ENABLED}", flush=True)
+                
+    return jsonify({
+        "cloud_enabled": CLOUD_ENABLED
+    })
+    
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.10
+- ✨ Added: /api/v1/system route
+
 ## 1.09
 - 🔧 Improved: expand debug mode
 
