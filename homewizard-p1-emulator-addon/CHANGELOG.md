@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.13
+## 1.1.0
 - ✨ Added: 100% complete endpoint parity with the official HomeWizard P1 API.
 - ✨ Added: Support for Combined Power Totals (`total_power_import_kwh` and `total_power_export_kwh`).
 - ✨ Added: Line frequency support (`active_frequency_hz`).
