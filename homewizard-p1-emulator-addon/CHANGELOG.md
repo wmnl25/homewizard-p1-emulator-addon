@@ -1,12 +1,12 @@
 # Changelog
 
-## 1.10
+## 1.0.10
 - ✨ Added: /api/v1/system route
 
-## 1.09
+## 1.0.9
 - 🔧 Improved: expand debug mode
 
-## 1.08
+## 1.0.8
 - 🛠️  Fix: Enable allow_name_change=True to prevent zeroconf._exceptions.NonUniqueNameException
 
 ## 1.0.7
