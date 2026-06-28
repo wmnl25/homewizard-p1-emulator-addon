@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.12
+- ✨ Added: Support for extended optional schema sensors (T3/T4 tariffs, L2/L3 phases, power failures, and short power drops).
+
+- 🔧 Improved: Dynamic API payload generation conditionally includes extra phases and tariffs only when configured.
+
+- 🔧 Improved: L1 voltage and current now prioritize real UI sensor data over hardcoded or calculated fallbacks.
+
 ## 1.0.11
 - 🛠️  Fix: fix power_produced and power_consumed input to kwh to avoid guessing
 

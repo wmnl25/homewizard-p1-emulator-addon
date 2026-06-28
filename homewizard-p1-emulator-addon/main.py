@@ -99,21 +99,19 @@ def get_ha_state(entity_key, default=0.0):
         return default
 
 def gather_api_data():
+    # --- Energy Imports/Exports ---
     import_t1 = round(get_ha_state("import_t1"), 3)
     import_t2 = round(get_ha_state("import_t2"), 3)
     export_t1 = round(get_ha_state("export_t1"), 3)
     export_t2 = round(get_ha_state("export_t2"), 3)
     
+    # --- Total Power (Raw values as requested) ---
     p_cons = get_ha_state("active_power_consumed")
     p_prod = get_ha_state("active_power_produced")
-    
-    #power_consumed = int(round(p_cons * 1000 if p_cons < 100 else p_cons))
-    #power_produced = int(round(p_prod * 1000 if p_prod < 100 else p_prod))
-    power_consumed = int(round(p_cons * 1000))
-    power_produced = int(round(p_prod * 1000))
-    netto_power = power_consumed - power_produced
+    netto_power = p_cons - p_prod
 
-    return {
+    # --- Build the Base Payload (Always Returned) ---
+    data = {
         "smr_version": 50,
         "meter_model": "AM550",
         "wifi_ssid": "Home_Assistant",
@@ -123,10 +121,43 @@ def gather_api_data():
         "total_power_export_t1_kwh": export_t1,
         "total_power_export_t2_kwh": export_t2,
         "active_power_w": netto_power,
-        "active_power_l1_w": netto_power,
-        "active_voltage_l1_v": 230.0,
-        "active_current_l1_a": round(netto_power / 230.0, 2)
+        
+        # Fallback to calculated/hardcoded L1 values ONLY IF not provided in UI
+        "active_power_l1_w": get_ha_state("power_l1") if options.get("power_l1") else netto_power,
+        "active_voltage_l1_v": get_ha_state("voltage_l1") if options.get("voltage_l1") else 230.0,
+        "active_current_l1_a": get_ha_state("current_l1") if options.get("current_l1") else round(netto_power / 230.0, 2),
+        
+        "any_short_power_drop": int(get_ha_state("short_power_drop", default=0)),
+        "any_power_fail": int(get_ha_state("power_fail", default=0))
     }
+
+    # --- Conditionally Add T3/T4 Tariffs ---
+    if options.get("import_t3"):
+        data["total_power_import_t3_kwh"] = round(get_ha_state("import_t3"), 3)
+    if options.get("import_t4"):
+        data["total_power_import_t4_kwh"] = round(get_ha_state("import_t4"), 3)
+    if options.get("export_t3"):
+        data["total_power_export_t3_kwh"] = round(get_ha_state("export_t3"), 3)
+    if options.get("export_t4"):
+        data["total_power_export_t4_kwh"] = round(get_ha_state("export_t4"), 3)
+
+    # --- Conditionally Add L2/L3 (3-Phase Systems) ---
+    if options.get("power_l2"):
+        data["active_power_l2_w"] = get_ha_state("power_l2")
+    if options.get("power_l3"):
+        data["active_power_l3_w"] = get_ha_state("power_l3")
+        
+    if options.get("voltage_l2"):
+        data["active_voltage_l2_v"] = get_ha_state("voltage_l2")
+    if options.get("voltage_l3"):
+        data["active_voltage_l3_v"] = get_ha_state("voltage_l3")
+        
+    if options.get("current_l2"):
+        data["active_current_l2_a"] = get_ha_state("current_l2")
+    if options.get("current_l3"):
+        data["active_current_l3_a"] = get_ha_state("current_l3")
+
+    return data
 
 def print_cli_updates():
     while True:
