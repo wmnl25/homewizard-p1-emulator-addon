@@ -107,8 +107,10 @@ def gather_api_data():
     p_cons = get_ha_state("active_power_consumed")
     p_prod = get_ha_state("active_power_produced")
     
-    power_consumed = int(round(p_cons * 1000 if p_cons < 100 else p_cons))
-    power_produced = int(round(p_prod * 1000 if p_prod < 100 else p_prod))
+    #power_consumed = int(round(p_cons * 1000 if p_cons < 100 else p_cons))
+    #power_produced = int(round(p_prod * 1000 if p_prod < 100 else p_prod))
+    power_consumed = int(round(p_cons * 1000))
+    power_produced = int(round(p_prod * 1000))
     netto_power = power_consumed - power_produced
 
     return {

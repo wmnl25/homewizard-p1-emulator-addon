@@ -18,7 +18,7 @@
     },
     "active_power_consumed": {
       "name": "Puissance Actuelle",
-      "description": "Consommation d'énergie en temps réel en Watts ou kW."
+      "description": "Consommation d'énergie en temps réel en kW."
     },
     "active_power_produced": {
       "name": "Production Actuelle",

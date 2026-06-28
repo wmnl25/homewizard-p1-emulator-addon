@@ -18,7 +18,7 @@
     },
     "active_power_consumed": {
       "name": "Actueel Verbruik",
-      "description": "Huidig stroomverbruik in Watt of kW."
+      "description": "Huidig stroomverbruik in kW."
     },
     "active_power_produced": {
       "name": "Actuele Productie",

@@ -18,7 +18,7 @@
     },
     "active_power_consumed": {
       "name": "Aktueller Verbrauch",
-      "description": "Aktueller Stromverbrauch in Watt oder kW."
+      "description": "Aktueller Stromverbrauch in kW."
     },
     "active_power_produced": {
       "name": "Aktuelle Produktion",

@@ -18,7 +18,7 @@
     },
     "active_power_consumed": {
       "name": "Current Power Usage",
-      "description": "Real-time power consumption in Watts or kW."
+      "description": "Real-time power consumption in kW."
     },
     "active_power_produced": {
       "name": "Current Power Production",

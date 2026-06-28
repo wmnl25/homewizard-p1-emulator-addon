@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.11
+- 🛠️  Fix: fix power_produced and power_consumed input to kwh to avoid guessing
+
 ## 1.0.10
 - ✨ Added: /api/v1/system route
 
