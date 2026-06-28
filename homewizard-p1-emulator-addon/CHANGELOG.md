@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.13
+- ✨ Added: 100% complete endpoint parity with the official HomeWizard P1 API.
+- ✨ Added: Support for Combined Power Totals (`total_power_import_kwh` and `total_power_export_kwh`).
+- ✨ Added: Line frequency support (`active_frequency_hz`).
+- ✨ Added: Voltage sags and swells tracking for all 3 phases.
+- ✨ Added: Peak demand tracking support (Belgian capacity tariff fields).
+- ✨ Added: Legacy external gas meter support (`total_gas_m3`).
+- 🛠️ Fixed: Adjusted power failure output names to match official HomeWizard API spec (`any_power_fail_count` and `long_power_fail_count`).
+
 ## 1.0.12
 - ✨ Added: Support for extended optional schema sensors (T3/T4 tariffs, L2/L3 phases, power failures, and short power drops).
 

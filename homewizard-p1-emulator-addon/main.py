@@ -60,6 +60,7 @@ DEVICE_SERIAL = get_or_create_serial()
 # LOGIC & DATA GATHERING
 # ==========================================
 CLOUD_ENABLED = False
+
 def get_ha_state(entity_key, default=0.0):
     entity_id = options.get(entity_key)
     
@@ -101,10 +102,19 @@ def get_ha_state(entity_key, default=0.0):
 def gather_api_data():
     # --- Energy Imports/Exports ---
     import_t1 = round(get_ha_state("import_t1"), 3)
-    import_t2 = round(get_ha_state("import_t2"), 3)
-    export_t1 = round(get_ha_state("export_t1"), 3)
-    export_t2 = round(get_ha_state("export_t2"), 3)
+    import_t2 = round(get_ha_state("import_t2"), 3) if options.get("import_t2") else 0.0
+    import_t3 = round(get_ha_state("import_t3"), 3) if options.get("import_t3") else 0.0
+    import_t4 = round(get_ha_state("import_t4"), 3) if options.get("import_t4") else 0.0
     
+    export_t1 = round(get_ha_state("export_t1"), 3)
+    export_t2 = round(get_ha_state("export_t2"), 3) if options.get("export_t2") else 0.0
+    export_t3 = round(get_ha_state("export_t3"), 3) if options.get("export_t3") else 0.0
+    export_t4 = round(get_ha_state("export_t4"), 3) if options.get("export_t4") else 0.0
+
+    # --- Combined Totals (Required by API) ---
+    total_import = import_t1 + import_t2 + import_t3 + import_t4
+    total_export = export_t1 + export_t2 + export_t3 + export_t4
+
     # --- Total Power (Convert HA kW to API Watts) ---
     p_cons = get_ha_state("active_power_consumed")
     p_prod = get_ha_state("active_power_produced")
@@ -121,48 +131,63 @@ def gather_api_data():
         "meter_model": "AM550",
         "wifi_ssid": "Home_Assistant",
         "wifi_strength": 100,
+        
+        "total_power_import_kwh": round(total_import, 3),
         "total_power_import_t1_kwh": import_t1,
+        
+        "total_power_export_kwh": round(total_export, 3),
         "total_power_export_t1_kwh": export_t1,
+        
         "active_power_w": netto_power,
         
         # Fallback to calculated/hardcoded L1 values ONLY IF not provided in UI
         "active_power_l1_w": get_ha_state("power_l1") if options.get("power_l1") else netto_power,
         "active_voltage_l1_v": get_ha_state("voltage_l1") if options.get("voltage_l1") else 230.0,
         "active_current_l1_a": get_ha_state("current_l1") if options.get("current_l1") else round(netto_power / 230.0, 2),
+        "active_frequency_hz": get_ha_state("frequency") if options.get("frequency") else 50.0,
         
-        "any_short_power_drop": int(get_ha_state("short_power_drop", default=0)),
-        "any_power_fail": int(get_ha_state("power_fail", default=0))
+        # Correctly mapped power failure API keys
+        "any_power_fail_count": int(get_ha_state("power_fail", default=0)),
+        "long_power_fail_count": int(get_ha_state("short_power_drop", default=0))
     }
 
-    # --- Conditionally Add T3/T4 Tariffs ---
-    if options.get("import_t2"):
-        data["total_power_import_t2_kwh"] = round(get_ha_state("import_t2"), 3)
-    if options.get("import_t3"):
-        data["total_power_import_t3_kwh"] = round(get_ha_state("import_t3"), 3)
-    if options.get("import_t4"):
-        data["total_power_import_t4_kwh"] = round(get_ha_state("import_t4"), 3)
-    if options.get("export_t2"):
-        data["total_power_export_t2_kwh"] = round(get_ha_state("export_t2"), 3)
-    if options.get("export_t3"):
-        data["total_power_export_t3_kwh"] = round(get_ha_state("export_t3"), 3)
-    if options.get("export_t4"):
-        data["total_power_export_t4_kwh"] = round(get_ha_state("export_t4"), 3)
+    # --- Conditionally Add T2/T3/T4 Tariffs ---
+    if options.get("import_t2"): data["total_power_import_t2_kwh"] = import_t2
+    if options.get("import_t3"): data["total_power_import_t3_kwh"] = import_t3
+    if options.get("import_t4"): data["total_power_import_t4_kwh"] = import_t4
+    if options.get("export_t2"): data["total_power_export_t2_kwh"] = export_t2
+    if options.get("export_t3"): data["total_power_export_t3_kwh"] = export_t3
+    if options.get("export_t4"): data["total_power_export_t4_kwh"] = export_t4
 
     # --- Conditionally Add L2/L3 (3-Phase Systems) ---
-    if options.get("power_l2"):
-        data["active_power_l2_w"] = get_ha_state("power_l2")
-    if options.get("power_l3"):
-        data["active_power_l3_w"] = get_ha_state("power_l3")
-        
-    if options.get("voltage_l2"):
-        data["active_voltage_l2_v"] = get_ha_state("voltage_l2")
-    if options.get("voltage_l3"):
-        data["active_voltage_l3_v"] = get_ha_state("voltage_l3")
-        
-    if options.get("current_l2"):
-        data["active_current_l2_a"] = get_ha_state("current_l2")
-    if options.get("current_l3"):
-        data["active_current_l3_a"] = get_ha_state("current_l3")
+    if options.get("power_l2"): data["active_power_l2_w"] = get_ha_state("power_l2")
+    if options.get("power_l3"): data["active_power_l3_w"] = get_ha_state("power_l3")
+    if options.get("voltage_l2"): data["active_voltage_l2_v"] = get_ha_state("voltage_l2")
+    if options.get("voltage_l3"): data["active_voltage_l3_v"] = get_ha_state("voltage_l3")
+    if options.get("current_l2"): data["active_current_l2_a"] = get_ha_state("current_l2")
+    if options.get("current_l3"): data["active_current_l3_a"] = get_ha_state("current_l3")
+
+    # --- Conditionally Add Sags & Swells ---
+    if options.get("voltage_sag_l1"): data["voltage_sag_l1_count"] = int(get_ha_state("voltage_sag_l1"))
+    if options.get("voltage_sag_l2"): data["voltage_sag_l2_count"] = int(get_ha_state("voltage_sag_l2"))
+    if options.get("voltage_sag_l3"): data["voltage_sag_l3_count"] = int(get_ha_state("voltage_sag_l3"))
+    if options.get("voltage_swell_l1"): data["voltage_swell_l1_count"] = int(get_ha_state("voltage_swell_l1"))
+    if options.get("voltage_swell_l2"): data["voltage_swell_l2_count"] = int(get_ha_state("voltage_swell_l2"))
+    if options.get("voltage_swell_l3"): data["voltage_swell_l3_count"] = int(get_ha_state("voltage_swell_l3"))
+
+    # --- Conditionally Add Peak Demand (Belgian Users) ---
+    if options.get("active_power_average"): 
+        data["active_power_average_w"] = get_ha_state("active_power_average")
+    if options.get("monthly_power_peak"): 
+        data["montly_power_peak_w"] = get_ha_state("monthly_power_peak")
+    if options.get("monthly_power_peak_timestamp"): 
+        data["montly_power_peak_timestamp"] = int(get_ha_state("monthly_power_peak_timestamp"))
+
+    # --- Conditionally Add Gas Meter Data ---
+    if options.get("total_gas"):
+        data["total_gas_m3"] = round(get_ha_state("total_gas"), 3)
+        data["gas_timestamp"] = int(get_ha_state("gas_timestamp")) if options.get("gas_timestamp") else int(time.strftime("%y%m%d%H%M%S"))
+        data["unique_gas_id"] = "GAS123456789ABCD"
 
     return data
 
