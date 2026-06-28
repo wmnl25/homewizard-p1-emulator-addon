@@ -122,9 +122,7 @@ def gather_api_data():
         "wifi_ssid": "Home_Assistant",
         "wifi_strength": 100,
         "total_power_import_t1_kwh": import_t1,
-        "total_power_import_t2_kwh": import_t2,
         "total_power_export_t1_kwh": export_t1,
-        "total_power_export_t2_kwh": export_t2,
         "active_power_w": netto_power,
         
         # Fallback to calculated/hardcoded L1 values ONLY IF not provided in UI
@@ -137,10 +135,14 @@ def gather_api_data():
     }
 
     # --- Conditionally Add T3/T4 Tariffs ---
+    if options.get("import_t2"):
+        data["total_power_import_t2_kwh"] = round(get_ha_state("import_t2"), 3)
     if options.get("import_t3"):
         data["total_power_import_t3_kwh"] = round(get_ha_state("import_t3"), 3)
     if options.get("import_t4"):
         data["total_power_import_t4_kwh"] = round(get_ha_state("import_t4"), 3)
+    if options.get("export_t2"):
+        data["total_power_export_t2_kwh"] = round(get_ha_state("export_t2"), 3)
     if options.get("export_t3"):
         data["total_power_export_t3_kwh"] = round(get_ha_state("export_t3"), 3)
     if options.get("export_t4"):
