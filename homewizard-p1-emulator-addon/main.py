@@ -13,6 +13,12 @@ import sys
 app = Flask(__name__)
 log = logging.getLogger('werkzeug')
 
+@app.after_request
+def add_api_headers(response):
+    response.headers["X-Api-Version"] = "2.3.0"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
 # ==========================================
 # HOME ASSISTANT ADD-ON CONFIGURATION
 # ==========================================
@@ -124,26 +130,32 @@ def gather_api_data():
     power_produced_w = int(round(p_prod * 1000))
     
     netto_power = power_consumed_w - power_produced_w
+    active_current_l1 = get_ha_state("current_l1") if options.get("current_l1") else round(netto_power / 230.0, 2)
 
     # --- Build the Base Payload (Always Returned) ---
     data = {
         "smr_version": 50,
         "meter_model": "AM550",
+        "unique_id": DEVICE_SERIAL.encode("ascii").hex().upper(),
         "wifi_ssid": "Home_Assistant",
         "wifi_strength": 100,
+        "active_tariff": 2,
         
         "total_power_import_kwh": round(total_import, 3),
         "total_power_import_t1_kwh": import_t1,
+        "total_power_import_t2_kwh": import_t2,
         
         "total_power_export_kwh": round(total_export, 3),
         "total_power_export_t1_kwh": export_t1,
+        "total_power_export_t2_kwh": export_t2,
         
         "active_power_w": netto_power,
         
         # Fallback to calculated/hardcoded L1 values ONLY IF not provided in UI
         "active_power_l1_w": get_ha_state("power_l1") if options.get("power_l1") else netto_power,
         "active_voltage_l1_v": get_ha_state("voltage_l1") if options.get("voltage_l1") else 230.0,
-        "active_current_l1_a": get_ha_state("current_l1") if options.get("current_l1") else round(netto_power / 230.0, 2),
+        "active_current_a": active_current_l1,
+        "active_current_l1_a": active_current_l1,
         "active_frequency_hz": get_ha_state("frequency") if options.get("frequency") else 50.0,
         
         # Correctly mapped power failure API keys
@@ -152,10 +164,8 @@ def gather_api_data():
     }
 
     # --- Conditionally Add T2/T3/T4 Tariffs ---
-    if options.get("import_t2"): data["total_power_import_t2_kwh"] = import_t2
     if options.get("import_t3"): data["total_power_import_t3_kwh"] = import_t3
     if options.get("import_t4"): data["total_power_import_t4_kwh"] = import_t4
-    if options.get("export_t2"): data["total_power_export_t2_kwh"] = export_t2
     if options.get("export_t3"): data["total_power_export_t3_kwh"] = export_t3
     if options.get("export_t4"): data["total_power_export_t4_kwh"] = export_t4
 
@@ -185,9 +195,19 @@ def gather_api_data():
 
     # --- Conditionally Add Gas Meter Data ---
     if options.get("total_gas"):
-        data["total_gas_m3"] = round(get_ha_state("total_gas"), 3)
-        data["gas_timestamp"] = int(get_ha_state("gas_timestamp")) if options.get("gas_timestamp") else int(time.strftime("%y%m%d%H%M%S"))
-        data["unique_gas_id"] = "GAS123456789ABCD"
+        gas_value = round(get_ha_state("total_gas"), 3)
+        gas_timestamp = int(get_ha_state("gas_timestamp")) if options.get("gas_timestamp") else int(time.strftime("%y%m%d%H%M%S"))
+        gas_unique_id = ("GAS" + DEVICE_SERIAL).encode("ascii").hex().upper()
+        data["total_gas_m3"] = gas_value
+        data["gas_timestamp"] = gas_timestamp
+        data["gas_unique_id"] = gas_unique_id
+        data["external"] = [{
+            "unique_id": gas_unique_id,
+            "type": "gas_meter",
+            "timestamp": gas_timestamp,
+            "value": gas_value,
+            "unit": "m3"
+        }]
 
     return data
 
