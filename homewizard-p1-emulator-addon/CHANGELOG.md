@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+- ✨ Added: HomeWizard-compatible API version and CORS response headers.
+- ✨ Added: Device ID, active tariff, aggregate current, and tariff-2 totals to the data response.
+- ✨ Added: Official gas meter identifier fields and the external gas meter entry.
+
 ## 1.1.0
 - ✨ Added: 100% complete endpoint parity with the official HomeWizard P1 API.
 - ✨ Added: Support for Combined Power Totals (`total_power_import_kwh` and `total_power_export_kwh`).
