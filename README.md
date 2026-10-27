@@ -1,7 +1,7 @@
 # HomeWizard P1 Meter Emulator for Home Assistant (Add-on)
 
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
-[![Version](https://img.shields.io/badge/version-1.0.14-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
+[![Version](https://img.shields.io/badge/version-1.2.0-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This project emulates a physical **HomeWizard P1 Energy Meter** on your local network. It pulls real-time data from your **Home Assistant** sensors and serves it via the official HomeWizard Local API (`v1`).
@@ -12,13 +12,13 @@ Perfect for feeding energy data into smart devices like the **Zendure SolarFlow 
 
 ## ✨ Features
 
-* **100% API Compliance:** Implements `/api`, `/api/v1/system`, and `/api/v1/data` endpoints matching the original hardware specifications.
-* **Comprehensive Data:** Supports 3-phase systems, T1-T4 tariffs, gas meters, grid quality (sags/swells/failures), and peak demand (capacity tariffs).
+* **HomeWizard API-compatible endpoints:** Implements `/api`, `/api/v1/system`, and `/api/v1/data`, including the API version and CORS response headers. Optional readings are included when their corresponding sensors are configured; emulator identity and some device details are synthetic.
+* **Comprehensive Data:** Supports 3-phase systems, T1-T4 tariffs, gas meters, grid quality (sags/swells/failures), and peak demand (capacity tariffs) when configured.
 * **Auto-Discovery:** Uses **mDNS (Zeroconf)** to broadcast as `_hwenergy._tcp.local.`, making it instantly visible in the Zendure app.
-* **Easy Configuration:** Features **Entity Selectors** in the Home Assistant UI—simply select your sensors from dropdown menus.
+* **Easy Configuration:** Enter Home Assistant sensor entity IDs in the add-on Configuration tab; optional sensor settings can be left blank.
 * **Multi-Language Support:** Full translations for **English, Dutch, German, French, and Spanish**.
-* **Smart Calculations:** Automatically calculates combined totals and Amperage (`A`) based on Wattage and Voltage if specific sensors are missing.
-* **Persistent Identity:** Generates and saves a unique serial/MAC address to keep the device stable in your apps.
+* **Smart Calculations:** Automatically calculates combined energy totals and estimates current from net power when a current sensor is not configured.
+* **Persistent Identity:** Generates and saves a serial/MAC address to keep the emulator identity stable across restarts. API device and gas IDs are derived synthetic identifiers, not IDs from a physical meter.
 
 ---
 
@@ -81,7 +81,7 @@ The add-on is pre-configured with standard Home Assistant P1 sensor names. You c
 | `gas_timestamp` | Most recent gas update (`YYMMDDhhmmss`) |
 
 ### ⚙️ System Settings
-* **`debug_mode`**: Enable to see live data updates and API requests in the logs (Default: `true`).
+* **`debug_mode`**: Enable to see live data updates in the logs (Default: `false`).
 * **`device_serial`**: Unique 12-character hex string. If empty, a stable serial is auto-generated.
 
 ---
