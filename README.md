@@ -77,6 +77,17 @@ curl -k -i "https://${ADDON_IP}/api/telegram" -H 'X-Api-Version: 2' -H "Authoriz
 
 These examples use `-k` to skip certificate verification for local testing. Use them only on a network you trust, and keep the bearer token private.
 
+### 🧪 Testing API v1 with cURL
+
+API v1 is served over HTTP on port 80. Reuse the `ADDON_IP` value set in the API v2 examples; these endpoints do not require a bearer token.
+
+```sh
+curl -i "http://${ADDON_IP}/api"
+curl -i "http://${ADDON_IP}/api/v1/data"
+curl -i "http://${ADDON_IP}/api/v1/telegram"
+curl -i "http://${ADDON_IP}/api/v1/system"
+```
+
 ### 📄 Raw P1 Telegram and Meter Type
 | Option | Description |
 | :--- | :--- |
