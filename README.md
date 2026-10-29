@@ -51,6 +51,32 @@ API v2 uses HTTPS on port 443. The add-on generates a certificate automatically 
 
 Save and restart the add-on to apply custom certificate paths. Both API versions remain served; `api_mode` controls which protocol Home Assistant discovers first.
 
+### 🧪 Testing API v2 with cURL
+
+Replace the address placeholder with the add-on's local IP. Enable pairing from **Open Web UI**, then create a local API user. The response includes a bearer token; copy it into `BEARER_TOKEN` below. The token is returned only when the user is created.
+
+```sh
+ADDON_IP="<ADD-ON-IP>"
+
+curl -k -i -X POST "https://${ADDON_IP}/api/user" \
+  -H 'X-Api-Version: 2' \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"local/ha-test"}'
+```
+
+Use the token from the response for the authenticated API checks:
+
+```sh
+BEARER_TOKEN="<TOKEN-FROM-USER-CREATION>"
+
+curl -k -i "https://${ADDON_IP}/api" -H 'X-Api-Version: 2' -H "Authorization: Bearer ${BEARER_TOKEN}"
+curl -k -i "https://${ADDON_IP}/api/measurement" -H 'X-Api-Version: 2' -H "Authorization: Bearer ${BEARER_TOKEN}"
+curl -k -i "https://${ADDON_IP}/api/system" -H 'X-Api-Version: 2' -H "Authorization: Bearer ${BEARER_TOKEN}"
+curl -k -i "https://${ADDON_IP}/api/telegram" -H 'X-Api-Version: 2' -H "Authorization: Bearer ${BEARER_TOKEN}"
+```
+
+These examples use `-k` to skip certificate verification for local testing. Use them only on a network you trust, and keep the bearer token private.
+
 ### 📄 Raw P1 Telegram and Meter Type
 | Option | Description |
 | :--- | :--- |
