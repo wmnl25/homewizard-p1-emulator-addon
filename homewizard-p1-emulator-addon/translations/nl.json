@@ -28,6 +28,26 @@
       "name": "Debug-logs Inschakelen",
       "description": "Toon realtime gegevensupdates in het Add-on logboek."
     },
+    "api_mode": {
+      "name": "API-keuze voor Home Assistant-detectie",
+      "description": "Kies v1 met het standaard zelfondertekende certificaat. Kies v2 alleen als een door Home Assistant vertrouwd TLS-certificaat is ingesteld. Beide API's blijven beschikbaar."
+    },
+    "raw_telegram": {
+      "name": "Sensor met ruwe P1-telegram",
+      "description": "Optionele Home Assistant-entiteit met de volledige DSMR/P1-telegram in de state of een attribuut. Indien beschikbaar wordt deze ongewijzigd teruggegeven en levert de header het metermodel."
+    },
+    "meter_type": {
+      "name": "P1-metertypeheader",
+      "description": "Fallback-telegramheader wanneer geen geldige ruwe telegram beschikbaar is. Voorbeeld: /ISK5\\2M550E-1013."
+    },
+    "tls_certificate": {
+      "name": "Pad naar vertrouwd TLS-certificaat",
+      "description": "Optioneel pad in de add-on naar een certificaat/full chain die Home Assistant vertrouwt, bijvoorbeeld /ssl/fullchain.pem. Leeg laten gebruikt een zelfondertekend certificaat."
+    },
+    "tls_private_key": {
+      "name": "Pad naar TLS-privésleutel",
+      "description": "Privésleutel die bij het TLS-certificaat hoort, bijvoorbeeld /ssl/privkey.pem. Vereist als een eigen certificaat is ingesteld."
+    },
     "device_serial": {
       "name": "Apparaat Serienummer",
       "description": "(Optioneel) Handmatig een 12-karakter hex serial/MAC instellen."

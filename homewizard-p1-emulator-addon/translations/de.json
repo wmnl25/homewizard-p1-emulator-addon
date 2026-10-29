@@ -28,6 +28,26 @@
       "name": "Debug-Logs Aktivieren",
       "description": "Echtzeit-Datenupdates im Add-on-Protokoll anzeigen."
     },
+    "api_mode": {
+      "name": "Home-Assistant-API-Erkennung",
+      "description": "Mit dem standardmäßigen selbstsignierten Zertifikat v1 wählen. v2 nur mit einem von Home Assistant vertrauenswürdigen TLS-Zertifikat auswählen. Beide APIs bleiben verfügbar."
+    },
+    "raw_telegram": {
+      "name": "Sensor für rohes P1-Telegramm",
+      "description": "Optionale Home-Assistant-Entität mit dem vollständigen DSMR/P1-Telegramm im Zustand oder in einem Attribut. Wenn vorhanden, wird es unverändert ausgegeben und der Header bestimmt das Zählermodell."
+    },
+    "meter_type": {
+      "name": "P1-Zählertyp-Header",
+      "description": "Fallback-Telegrammheader, wenn kein gültiges Rohtelegramm verfügbar ist. Beispiel: /ISK5\\2M550E-1013."
+    },
+    "tls_certificate": {
+      "name": "Pfad zum vertrauenswürdigen TLS-Zertifikat",
+      "description": "Optionaler Pfad im Add-on zu einem von Home Assistant vertrauenswürdigen Zertifikat bzw. einer vollständigen Zertifikatskette, z. B. /ssl/fullchain.pem. Leer lassen für ein selbstsigniertes Zertifikat."
+    },
+    "tls_private_key": {
+      "name": "Pfad zum TLS-Privatschlüssel",
+      "description": "Zum TLS-Zertifikat passender Schlüssel, z. B. /ssl/privkey.pem. Bei einem eigenen Zertifikat erforderlich."
+    },
     "device_serial": {
       "name": "Geräte-Seriennummer",
       "description": "(Optional) Manuelles Festlegen einer 12-stelligen Hex-Seriennummer/MAC."

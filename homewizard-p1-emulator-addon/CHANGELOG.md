@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0
+- ✨ Added: Simultaneous API v1 and v2 support, including bearer-token pairing, measurement, system, telegram, and battery endpoints, HTTPS, and WebSocket.
+- ✨ Added: Home Assistant ingress Web UI for pairing and device/measurement status.
+- ✨ Added: Optional raw-telegram sensor input; the telegram header supplies the meter model, with a configurable `/ISK5\2M550E-1013` fallback.
+- 🔒 Added: Configurable TLS certificate and private-key paths for Home Assistant v2 pairing; API v1 remains the default discovery preference.
+- ⚠️ Note: The generated self-signed certificate is for direct testing only. Home Assistant's built-in v2 client requires a certificate chain trusted by Home Assistant. Reboot and identify actions are acknowledged but cannot affect physical hardware.
+
 ## 1.3.0
 - ✨ Added: `/api/v1/telegram` endpoint with DSMR-formatted readings and CRC-16 checksum.
 

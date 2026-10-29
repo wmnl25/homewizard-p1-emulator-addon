@@ -4,7 +4,7 @@ FROM python:3.11-alpine
 ENV PYTHONUNBUFFERED=1
 
 # Installeer direct de benodigde pakketten (apk add is niet meer nodig)
-RUN pip3 install --no-cache-dir flask requests zeroconf
+RUN apk add --no-cache openssl && pip3 install --no-cache-dir flask requests zeroconf flask-sock
 
 # Kopieer ons script naar de container
 COPY main.py /main.py

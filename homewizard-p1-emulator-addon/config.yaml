@@ -1,6 +1,6 @@
 name: "HomeWizard P1 Emulator"
-description: "Emulates a HomeWizard P1 meter using Home Assistant sensors to feed data into devices like Zendure SolarFlow."
-version: "1.3.0"
+description: "Emulates a HomeWizard P1 meter using Home Assistant sensors. Provides API v1/v2, raw telegram passthrough, HTTPS/WebSocket, and an ingress Web UI for status and pairing. Home Assistant API v2 pairing requires a trusted TLS certificate."
+version: "2.0.0"
 slug: "homewizard_p1_emulator"
 init: false
 arch:
@@ -11,10 +11,21 @@ arch:
 host_network: true
 homeassistant_api: true
 hassio_api: true
+ssl: true
+ingress: true
+ingress_port: 80
+panel_icon: mdi:flash
+panel_title: P1 Emulator
 ports:
   80/tcp: 80
+  443/tcp: 443
 options:
   debug_mode: false
+  api_mode: "v1" # Default HA discovery preference; both APIs remain available.
+  raw_telegram: ""
+  meter_type: '/ISK5\2M550E-1013'
+  tls_certificate: ""
+  tls_private_key: ""
   import_t1: "sensor.p1_energy_consumed_tariff_1"
   import_t2: "sensor.p1_energy_consumed_tariff_2"
   export_t1: "sensor.p1_energy_produced_tariff_1"
@@ -23,6 +34,11 @@ options:
   active_power_produced: "sensor.p1_power_produced"
 schema:
   debug_mode: bool
+  api_mode: list(v1|v2)
+  raw_telegram: str?
+  meter_type: str
+  tls_certificate: str?
+  tls_private_key: str?
   device_serial: str?
   import_t1: str?
   import_t2: str?

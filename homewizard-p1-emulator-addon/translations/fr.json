@@ -28,6 +28,26 @@
       "name": "Activer les Logs de Débogage",
       "description": "Afficher les mises à jour de données en temps réel dans le journal de l'add-on."
     },
+    "api_mode": {
+      "name": "Préférence de détection API Home Assistant",
+      "description": "Choisissez v1 avec le certificat autosigné par défaut. Choisissez v2 uniquement avec un certificat TLS approuvé par Home Assistant. Les deux API restent disponibles."
+    },
+    "raw_telegram": {
+      "name": "Capteur de télégramme P1 brut",
+      "description": "Entité Home Assistant facultative contenant le télégramme DSMR/P1 complet dans son état ou un attribut. S'il est disponible, il est renvoyé tel quel et son en-tête fournit le modèle du compteur."
+    },
+    "meter_type": {
+      "name": "En-tête du type de compteur P1",
+      "description": "En-tête de télégramme de secours lorsqu'aucun télégramme brut valide n'est disponible. Exemple : /ISK5\\2M550E-1013."
+    },
+    "tls_certificate": {
+      "name": "Chemin du certificat TLS approuvé",
+      "description": "Chemin facultatif dans l'add-on vers un certificat/une chaîne approuvé par Home Assistant, par exemple /ssl/fullchain.pem. Laisser vide pour utiliser un certificat autosigné."
+    },
+    "tls_private_key": {
+      "name": "Chemin de la clé privée TLS",
+      "description": "Clé privée correspondant au certificat TLS, par exemple /ssl/privkey.pem. Obligatoire avec un certificat personnalisé."
+    },
     "device_serial": {
       "name": "Numéro de Série de l'Appareil",
       "description": "(Optionnel) Définir manuellement un numéro de série/MAC hexadécimal de 12 caractères."
