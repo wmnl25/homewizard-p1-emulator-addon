@@ -1,6 +1,6 @@
 name: "HomeWizard P1 Emulator"
 description: "Emulates a HomeWizard P1 meter using Home Assistant sensors. Provides API v1/v2, raw telegram passthrough, HTTPS/WebSocket, and an ingress Web UI for status and pairing. Home Assistant API v2 pairing requires a trusted TLS certificate."
-version: "2.0.0"
+version: "2.0.1"
 slug: "homewizard_p1_emulator"
 init: false
 arch:
@@ -12,6 +12,9 @@ host_network: true
 homeassistant_api: true
 hassio_api: true
 ssl: true
+map:
+  - type: ssl
+    read_only: true
 ingress: true
 ingress_port: 80
 panel_icon: mdi:flash

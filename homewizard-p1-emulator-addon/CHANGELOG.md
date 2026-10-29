@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1
+- 🛠️ Fixed: Mount the Home Assistant `/ssl` directory inside the add-on so configured TLS certificate and private-key paths are accessible to the HTTPS server.
+
 ## 2.0.0
 - ✨ Added: Simultaneous API v1 and v2 support, including bearer-token pairing, measurement, system, telegram, and battery endpoints, HTTPS, and WebSocket.
 - ✨ Added: Home Assistant ingress Web UI for pairing and device/measurement status.

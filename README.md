@@ -1,7 +1,7 @@
 # HomeWizard P1 Meter Emulator for Home Assistant (Add-on)
 
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
-[![Version](https://img.shields.io/badge/version-2.0.0-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
+[![Version](https://img.shields.io/badge/version-2.0.1-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This project emulates a physical **HomeWizard P1 Energy Meter** on your local network. It pulls real-time data from your **Home Assistant** sensors and serves HomeWizard Local API v1 and v2.
