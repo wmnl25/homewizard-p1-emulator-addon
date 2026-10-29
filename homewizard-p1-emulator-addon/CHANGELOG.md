@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.0
+- ✨ Added: `/api/v1/telegram` endpoint with DSMR-formatted readings and CRC-16 checksum.
+
 ## 1.2.0
 - ✨ Added: HomeWizard-compatible API version and CORS response headers.
 - ✨ Added: Device ID, active tariff, aggregate current, and tariff-2 totals to the data response.

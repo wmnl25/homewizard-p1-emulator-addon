@@ -1,7 +1,7 @@
 # HomeWizard P1 Meter Emulator for Home Assistant (Add-on)
 
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
-[![Version](https://img.shields.io/badge/version-1.2.0-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
+[![Version](https://img.shields.io/badge/version-1.3.0-green.svg)](https://github.com/wmnl25/homewizard-p1-emulator-addon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This project emulates a physical **HomeWizard P1 Energy Meter** on your local network. It pulls real-time data from your **Home Assistant** sensors and serves it via the official HomeWizard Local API (`v1`).
@@ -12,7 +12,7 @@ Perfect for feeding energy data into smart devices like the **Zendure SolarFlow 
 
 ## ✨ Features
 
-* **HomeWizard API-compatible endpoints:** Implements `/api`, `/api/v1/system`, and `/api/v1/data`, including the API version and CORS response headers. Optional readings are included when their corresponding sensors are configured; emulator identity and some device details are synthetic.
+* **HomeWizard API-compatible endpoints:** Implements `/api`, `/api/v1/system`, `/api/v1/data`, and a DSMR-formatted `/api/v1/telegram`, including the API version and CORS response headers. Optional readings are included when their corresponding sensors are configured; emulator identity and some device details are synthetic.
 * **Comprehensive Data:** Supports 3-phase systems, T1-T4 tariffs, gas meters, grid quality (sags/swells/failures), and peak demand (capacity tariffs) when configured.
 * **Auto-Discovery:** Uses **mDNS (Zeroconf)** to broadcast as `_hwenergy._tcp.local.`, making it instantly visible in the Zendure app.
 * **Easy Configuration:** Enter Home Assistant sensor entity IDs in the add-on Configuration tab; optional sensor settings can be left blank.

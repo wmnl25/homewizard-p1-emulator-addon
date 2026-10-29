@@ -231,6 +231,69 @@ def get_basic_info():
 def get_data():
     return jsonify(gather_api_data())
 
+def format_p1_value(value, width=10, decimals=3):
+    return f"{float(value):0{width}.{decimals}f}"
+
+def calculate_dsmr_checksum(telegram):
+    """Return the DSMR CRC-16 checksum for the telegram through its final '!'."""
+    crc = 0
+    for byte in telegram.encode("ascii"):
+        crc ^= byte
+        for _ in range(8):
+            crc = (crc >> 1) ^ 0xA001 if crc & 1 else crc >> 1
+    return f"{crc:04X}"
+
+@app.route('/api/v1/telegram', methods=['GET'])
+def get_telegram():
+    data = gather_api_data()
+
+    meter_model = str(data.get("meter_model", "2M550E-1013"))
+    if meter_model.upper().startswith("ISKRA "):
+        meter_model = meter_model[6:]
+
+    lines = [
+        f"/ISK5\\{meter_model}",
+        f"1-3:0.2.8({int(data.get('smr_version', 50))})",
+        f"0-0:1.0.0({time.strftime('%y%m%d%H%M%S')}W)",
+        f"0-0:96.1.1({data.get('unique_id', '')})",
+        f"1-0:1.8.1({format_p1_value(data.get('total_power_import_t1_kwh', 0))}*kWh)",
+        f"1-0:1.8.2({format_p1_value(data.get('total_power_import_t2_kwh', 0))}*kWh)",
+        f"1-0:2.8.1({format_p1_value(data.get('total_power_export_t1_kwh', 0))}*kWh)",
+        f"1-0:2.8.2({format_p1_value(data.get('total_power_export_t2_kwh', 0))}*kWh)",
+        f"0-0:96.14.0({int(data.get('active_tariff', 0)):04d})",
+    ]
+
+    active_power_w = float(data.get("active_power_w", 0))
+    phase_power_w = float(data.get("active_power_l1_w", active_power_w))
+    lines.extend([
+        f"1-0:1.7.0({format_p1_value(max(active_power_w, 0) / 1000, width=6)}*kW)",
+        f"1-0:2.7.0({format_p1_value(max(-active_power_w, 0) / 1000, width=6)}*kW)",
+        f"0-0:96.7.21({int(data.get('any_power_fail_count', 0)):05d})",
+        f"0-0:96.7.9({int(data.get('long_power_fail_count', 0)):05d})",
+        "1-0:99.97.0()",
+        f"1-0:32.32.0({int(data.get('voltage_sag_l1_count', 0)):05d})",
+        f"1-0:32.36.0({int(data.get('voltage_swell_l1_count', 0)):05d})",
+        "0-0:96.13.0()",
+        f"1-0:32.7.0({float(data.get('active_voltage_l1_v', 0)):.1f}*V)",
+        f"1-0:31.7.0({int(abs(float(data.get('active_current_l1_a', data.get('active_current_a', 0)))) + 0.999999):03d}*A)",
+        f"1-0:21.7.0({format_p1_value(max(phase_power_w, 0) / 1000, width=6)}*kW)",
+        f"1-0:22.7.0({format_p1_value(max(-phase_power_w, 0) / 1000, width=6)}*kW)",
+    ])
+
+    external = data.get("external") or []
+    gas_meter = next((item for item in external if item.get("type") == "gas_meter"), None)
+    if gas_meter:
+        gas_timestamp = int(gas_meter.get("timestamp", data.get("gas_timestamp", 0)))
+        lines.extend([
+            "0-1:24.1.0(003)",
+            f"0-1:96.1.0({gas_meter.get('unique_id', data.get('gas_unique_id', ''))})",
+            f"0-1:24.2.1({gas_timestamp:012d}W)({format_p1_value(gas_meter.get('value', data.get('total_gas_m3', 0)))}*m3)",
+        ])
+
+    telegram = "\r\n".join(lines) + "\r\n!"
+    checksum = calculate_dsmr_checksum(telegram)
+    return app.response_class(f"{telegram}{checksum}\r\n", mimetype="text/plain")
+
 @app.route('/api/v1/system', methods=['GET', 'PUT'])
 def system_state():
     global CLOUD_ENABLED
