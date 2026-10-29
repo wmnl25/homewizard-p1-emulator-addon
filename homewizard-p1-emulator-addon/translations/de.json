@@ -30,7 +30,7 @@
     },
     "api_mode": {
       "name": "Home-Assistant-API-Erkennung",
-      "description": "Mit dem standardmäßigen selbstsignierten Zertifikat v1 wählen. v2 nur mit einem von Home Assistant vertrauenswürdigen TLS-Zertifikat auswählen. Beide APIs bleiben verfügbar."
+      "description": "Wähle, welche API-Version Home Assistant bei der Erkennung bevorzugen soll. Beide APIs bleiben verfügbar."
     },
     "raw_telegram": {
       "name": "Sensor für rohes P1-Telegramm",
@@ -41,8 +41,8 @@
       "description": "Fallback-Telegrammheader, wenn kein gültiges Rohtelegramm verfügbar ist. Beispiel: /ISK5\\2M550E-1013."
     },
     "tls_certificate": {
-      "name": "Pfad zum vertrauenswürdigen TLS-Zertifikat",
-      "description": "Optionaler Pfad im Add-on zu einem von Home Assistant vertrauenswürdigen Zertifikat bzw. einer vollständigen Zertifikatskette, z. B. /ssl/fullchain.pem. Leer lassen für ein selbstsigniertes Zertifikat."
+      "name": "Pfad zum TLS-Zertifikat",
+      "description": "Optionaler Pfad im Add-on zu einem Zertifikat oder einer vollständigen Zertifikatskette, z. B. /ssl/fullchain.pem. Leer lassen, damit automatisch ein Zertifikat erstellt wird."
     },
     "tls_private_key": {
       "name": "Pfad zum TLS-Privatschlüssel",

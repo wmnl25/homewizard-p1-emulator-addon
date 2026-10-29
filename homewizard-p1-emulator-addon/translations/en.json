@@ -30,7 +30,7 @@
     },
     "api_mode": {
       "name": "Home Assistant API Discovery Preference",
-      "description": "Choose v1 when using the built-in self-signed certificate. Choose v2 only when a TLS certificate trusted by Home Assistant is configured. Both APIs remain available."
+      "description": "Choose which API version Home Assistant should prefer during discovery. Both APIs remain available."
     },
     "raw_telegram": {
       "name": "Raw P1 Telegram Sensor",
@@ -41,8 +41,8 @@
       "description": "Fallback telegram header used when no valid raw telegram is available. Example: /ISK5\\2M550E-1013."
     },
     "tls_certificate": {
-      "name": "Trusted TLS Certificate Path",
-      "description": "Optional path inside the add-on to a certificate/full chain trusted by Home Assistant, for example /ssl/fullchain.pem. Leave blank to use a generated self-signed certificate."
+      "name": "TLS Certificate Path",
+      "description": "Optional path inside the add-on to a certificate or full chain, for example /ssl/fullchain.pem. Leave blank to use an automatically generated certificate."
     },
     "tls_private_key": {
       "name": "TLS Private Key Path",

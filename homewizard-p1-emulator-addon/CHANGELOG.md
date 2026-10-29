@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.2
+- 📝 Updated: Clarified that the automatically generated TLS certificate is the default and custom certificate paths are optional; removed trusted-certificate and Certbot setup instructions.
+
 ## 2.0.1
 - 🛠️ Fixed: Mount the Home Assistant `/ssl` directory inside the add-on so configured TLS certificate and private-key paths are accessible to the HTTPS server.
 
@@ -8,7 +11,7 @@
 - ✨ Added: Home Assistant ingress Web UI for pairing and device/measurement status.
 - ✨ Added: Optional raw-telegram sensor input; the telegram header supplies the meter model, with a configurable `/ISK5\2M550E-1013` fallback.
 - 🔒 Added: Configurable TLS certificate and private-key paths for Home Assistant v2 pairing; API v1 remains the default discovery preference.
-- ⚠️ Note: The generated self-signed certificate is for direct testing only. Home Assistant's built-in v2 client requires a certificate chain trusted by Home Assistant. Reboot and identify actions are acknowledged but cannot affect physical hardware.
+- ⚠️ Note: HTTPS uses an automatically generated certificate unless custom certificate and key paths are configured. Reboot and identify actions are acknowledged but cannot affect physical hardware.
 
 ## 1.3.0
 - ✨ Added: `/api/v1/telegram` endpoint with DSMR-formatted readings and CRC-16 checksum.

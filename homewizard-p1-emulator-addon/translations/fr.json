@@ -30,7 +30,7 @@
     },
     "api_mode": {
       "name": "Préférence de détection API Home Assistant",
-      "description": "Choisissez v1 avec le certificat autosigné par défaut. Choisissez v2 uniquement avec un certificat TLS approuvé par Home Assistant. Les deux API restent disponibles."
+      "description": "Choisissez la version d'API que Home Assistant doit privilégier lors de la détection. Les deux API restent disponibles."
     },
     "raw_telegram": {
       "name": "Capteur de télégramme P1 brut",
@@ -41,8 +41,8 @@
       "description": "En-tête de télégramme de secours lorsqu'aucun télégramme brut valide n'est disponible. Exemple : /ISK5\\2M550E-1013."
     },
     "tls_certificate": {
-      "name": "Chemin du certificat TLS approuvé",
-      "description": "Chemin facultatif dans l'add-on vers un certificat/une chaîne approuvé par Home Assistant, par exemple /ssl/fullchain.pem. Laisser vide pour utiliser un certificat autosigné."
+      "name": "Chemin du certificat TLS",
+      "description": "Chemin facultatif dans l'add-on vers un certificat ou une chaîne complète, par exemple /ssl/fullchain.pem. Laisser vide pour générer automatiquement un certificat."
     },
     "tls_private_key": {
       "name": "Chemin de la clé privée TLS",

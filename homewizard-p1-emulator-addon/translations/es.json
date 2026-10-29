@@ -30,7 +30,7 @@
     },
     "api_mode": {
       "name": "Preferencia de detección API de Home Assistant",
-      "description": "Elige v1 con el certificado autofirmado predeterminado. Elige v2 solo si configuras un certificado TLS de confianza para Home Assistant. Ambas API siguen disponibles."
+      "description": "Elige qué versión de la API debe preferir Home Assistant durante la detección. Ambas API siguen disponibles."
     },
     "raw_telegram": {
       "name": "Sensor de telegrama P1 sin procesar",
@@ -41,8 +41,8 @@
       "description": "Encabezado de telegrama alternativo cuando no hay un telegrama sin procesar válido. Ejemplo: /ISK5\\2M550E-1013."
     },
     "tls_certificate": {
-      "name": "Ruta del certificado TLS de confianza",
-      "description": "Ruta opcional dentro del complemento a un certificado/cadena de confianza para Home Assistant, por ejemplo /ssl/fullchain.pem. Déjalo vacío para usar un certificado autofirmado."
+      "name": "Ruta del certificado TLS",
+      "description": "Ruta opcional dentro del complemento a un certificado o cadena completa, por ejemplo /ssl/fullchain.pem. Déjala vacía para generar un certificado automáticamente."
     },
     "tls_private_key": {
       "name": "Ruta de la clave privada TLS",
